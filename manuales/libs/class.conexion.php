@@ -4,10 +4,10 @@
 class c_MySQLi  extends mysqli{
 
    public function __construct(){     
-		$this->DB_HOST = 'localhost';
-		$this->DB_USER = 'root';
-		$this->DB_PASS = '';
-		$this->DB_NAME = 'manual';
+		$this->DB_HOST = 'b9orverzxow86sski7wm-mysql.services.clever-cloud.com';
+		$this->DB_USER = 'uqvio4ak5cx9tuyf';
+		$this->DB_PASS = 'krdBTazenT1q2cCwTIoW';
+		$this->DB_NAME = 'b9orverzxow86sski7wm';
       parent:: __construct();
       $this->conexion=mysqli_connect( $this->DB_HOST, $this->DB_USER, $this->DB_PASS, $this->DB_NAME) or die('Se genero un error de acceso '. __LINE__);
    }
