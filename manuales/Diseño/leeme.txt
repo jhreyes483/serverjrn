@@ -1,0 +1,1 @@
+se hicieron pruebas en php 8, y hay compativilidad, fuciona con php 7.4

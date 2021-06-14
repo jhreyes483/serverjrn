@@ -1,0 +1,274 @@
+<div class=" container-fluid">
+   <div class="card card-body my-4">
+      <div class="row">
+         <div class="col-md-12  ">
+            <div class="row">
+               <div class="col-md-4 ">
+                  <form action="" method="post">
+                     <input type="hidden" name="a" value="rI">
+                     <input type="submit" class="btn btn-ms" value="Volver a Manual">
+                  </form>
+               </div>
+               <div class="col-md-4 ">
+                  <div class="text-center"><span class=" h5 text-muted mx-auto mt-2 text-center"><?= $this->modal[0]  ?></span></div>
+                  <br><br>
+               </div>
+            </div>
+         </div>
+         <hr>
+         <div class="col-md-6">
+            <span class="mb-4">
+               <p><?= $this->modal[1]  ?></p>
+            </span>
+
+            <?php
+            foreach ($this->botons as $d) if (isset($d[0]) && !empty($d[0])) echo  '<button class="my-2 btn btn-sm btn-success" id="btn' . $d[2] . $d[0] . '" >' . $d[0] . '</button>
+         <img id="img' . $d[2] . $d[0] . '" width="900" src="../public/layout1/img/dev/' . $d[1] . '" style="display: none;" > ';
+
+            ?>
+
+         </div>
+         <div class="col-md-6">
+            <form action="" id="form2" method="post">
+               <input type="text" name="butonNam" class="form-control" required>
+               <input type="hidden" name="a" value="createB">
+               <input type="hidden" name="id_modal" value="<?= ($_POST['id_modal']) ?>">
+               <button id="creaBtn" class="btn btn-sm btn-success mb-2">Crear boton</button>
+            </form>
+            <form action="" method="post" enctype="multipart/form-data">
+               <input type="hidden" name="a" value="subF">
+               <input id="nuevoBtn" type="file" class=" custom-file-input " id="customFile" name="foto">
+               <input type="submit" class="btn btn-success btn-sm" value="Guardar imagen">
+               <input type="hidden" name="id_modal" value="<?= $this->modal[2] ?>">
+            </form>
+            <form id="form1" method="post">
+               <button id="guardar" class="btn btn-sm btn-danger mb-2">Guardar Texto</button>
+
+               <div class="col-md-12 mb-3 ">
+                  <label for=""></label>
+                  <div id="classic">
+                     <div class="inline-margin"></div>
+                     <textarea id="editor_classic"></textarea>
+                     <input id="obs" name="obs" type="hidden" value="">
+                     <input id="obsAnt" name="obsAnt" type="hidden" value="<?= $this->modal[1]  ?>">
+                     <input id="ids" name="id" type="hidden" value="<?= $this->modal[2] ?>">
+                     <input id="btns" name="btns" type="hidden" value="">
+                     <input name="id_modal" type="hidden" value="<?= $_POST['id_modal'] ?>">
+                     <input type="hidden" id="a" name="a">
+                     <input type="hidden" name="manual" value="<?= $_POST['manual'] ?>">
+                  </div>
+               </div>
+            </form>
+
+         </div>
+      </div>
+
+
+   </div>
+
+   <?php
+   if (isset($this->error)) {
+      echo '   <div class="col-md-4 mx-auto text-center my-2 alert alert-danger alert-dismissible fade show" role="alert">
+   ' . $this->error . '</div>
+</div>';
+   }
+   ?>
+
+   <script>
+      <?php
+      foreach ($this->botons as $d) {
+      ?>
+         $("<?= '#btn' . $d[2] . $d[0] ?>").click(function() {
+            $("<?= '#img' . $d[2] . $d[0] ?>").toggle(1000);
+         });
+      <?php
+      }
+      ?>
+
+      $("#creaBtn").click(function() {
+         $("#a").val('createB');
+         $("#form1").submit();
+      })
+
+
+      $(document).ready(function() {
+         $("#guardar").on('click', function() {
+            // Captura el dato lo pasa al hidden y envia el formulario
+            $("#obs").val(($(".se-wrapper-inner").html()));
+            //    $("#obsAnt").val($('#m1').html())
+            $("#a").val('update')
+            $('#form1').submit();
+         });
+
+         //$("#nuevoBtn").click(function(){
+         //});
+      });
+
+      SUNEDITOR.create('editor_classic', {
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         charCounter: true,
+         charCounterLabel: 'Caracteres :',
+         // imageGalleryUrl: 'https://etyswjpn79.execute-api.ap-northeast-1.amazonaws.com/suneditor-demo',
+         buttonList: [
+            // default
+            ['undo', 'redo'],
+            ['formatBlock'],
+            ['paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic'],
+            ['removeFormat'],
+            // (min-width: 1565)
+
+            // (min-width: 1455)
+            ['%1455', [
+               ['undo', 'redo'],
+               ['font', 'fontSize', 'formatBlock'],
+               ['paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic'],
+               ['fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'print']
+            ]],
+            // (min-width: 1326)
+            ['%1326', [
+               ['undo', 'redo'],
+               ['font', 'fontSize', 'formatBlock'],
+               ['paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic'],
+               ['fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'print'],
+               ['-right', ':r-More Rich-default.more_plus']
+            ]],
+            // (min-width: 1123)
+            ['%1123', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic'],
+               ['fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'preview'],
+               ['-right', ':r-More Rich-default.more_plus']
+            ]],
+            // (min-width: 817)
+            ['%817', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic', 'strike'],
+               [':t-More Text-default.more_text', 'subscript', 'superscript', 'fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'preview'],
+               ['-right', ':r-More Rich-default.more_plus']
+            ]],
+            // (min-width: 673)
+            ['%673', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'preview']
+            ]],
+            // (min-width: 525)
+            ['%525', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'paragraphStyle', 'blockquote'],
+               [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               [':e-More Line-default.more_horizontal', 'align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'preview']
+            ]],
+            // (min-width: 420)
+            ['%420', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'removeFormat'],
+               [':e-More Line-default.more_horizontal', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'preview']
+            ]]
+         ],
+         name: 'obs',
+         placeholder: 'Empieza a escribir...',
+         templates: [{
+               html: '<p>HTML source1</p>'
+            },
+            {
+               html: '<p>HTML source2</p>'
+            }
+         ],
+         katex: katex,
+      });
+
+      SUNEDITOR.create('editor_inline1', {
+         mode: 'inline',
+         display: 'block',
+         width: '100%',
+         height: '162',
+         popupDisplay: 'full',
+         buttonList: [
+            ['bold', 'underline', 'align', 'horizontalRule', 'list', 'table', 'codeView']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+      SUNEDITOR.create('editor_inline2', {
+         name: 'obs',
+         mode: 'inline',
+         display: 'block',
+         width: '100%',
+         height: '204',
+         popupDisplay: 'full',
+         buttonList: [
+            ['font', 'fontSize', 'formatBlock'],
+            ['bold', 'underline', 'italic'],
+            ['codeView']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+      SUNEDITOR.create('editor_inline3', {
+         mode: 'inline',
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         buttonList: [
+            ['link', 'image', 'video']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+
+      SUNEDITOR.create('editor_balloon', {
+         mode: 'balloon',
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         buttonList: [
+            ['fontSize', 'fontColor', 'bold', 'underline', 'align', 'horizontalRule', 'table', 'codeView']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+
+      SUNEDITOR.create('editor_balloon_always', {
+         mode: 'balloon-always',
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         buttonList: [
+            ['bold', 'italic', 'link', 'undo', 'redo']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+   </script>

@@ -1,0 +1,378 @@
+<?php
+
+function asignaCol($d)
+{
+   Controller::Ver($d, 0, 2);
+   $c =  count(array_unique($d));
+   switch ($c) {
+      case 3:
+         return 4;
+         break;
+      case 2:
+         return 6;
+         break;
+      case 1:
+         return 12;
+         break;
+      default:
+         # code...
+         break;
+   }
+}
+?>
+
+<script>
+   function enviaData(a) {
+      console.log(a)
+      $('#m1').html(a[0])
+      $('#ids').val(a[1]) 
+   }
+</script>
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<div class="mx-auto">
+   <a href="https://www.youtube.com/playlist?list=PLZ2ovOgdI-kWWS9aq8mfUDkJRfYib-SvF">Tutoriales</a>
+   <a href="https://laravel.com/docs/8.x">Laravel documentacion oficial</a>
+</div>
+<h3>Quede en el video 13 referente a crud</h3>
+
+<div class="container">
+   <div class="col-md-3 my-4 mx-auto">
+      <select name="manual" id="">
+         <?php
+         foreach ($this->manuales as $i => $d) echo '<option ' . ($i == $_POST['manual']) . ' value="' . $i . '">' . $d . '</option>';
+         ?>
+      </select>
+   </div>
+</div>
+
+<!--  -->
+<div class="card col-md-8 mx-auto">
+   <h3 class="text-center">Instalacion</h3>
+</div>
+<div class="my-4 card-title mx-auto col-md-2">
+   <h3> Requisitos laravel 8</h3>
+   <span id="php-v" title="comando php -v"> php 7.4</span>, composer, node.js.
+</div>
+
+<?php
+foreach ($this->data as $i => $d) {
+   $item = explode('|', $i);
+?>
+   <div class="card my-2 card-body mx-auto col-md-10">
+      <div class="container-fluid text-center col-md-10">
+         <h3 class="text-center"><?= $item[1] ?></h3>
+         <div class="row mx-auto">
+            <?php
+            if (is_array($d)) foreach ($d as $boton => $b) {
+               $tmpBoton = explode('|', $boton);
+               Controller::Ver($b, 0, 1, 'b');
+               if (is_array($b)) foreach (array_unique($b) as $k => $v) {
+                  $idModal = '';
+                  // Controller::Ver($v);
+                  $modal = (!empty($v[6])) ? true : false;
+                  if ($modal) {
+                     $idModal = $i . $v[3] . $v[5];
+                     $targer  = 'data-bs-toggle="modal" data-bs-target="#' . $idModal . '"';
+                  } else {
+                     $idModal =  $targer = 'href=" ' . ($v[14] ?? 'javascript:;') . '"';
+                  }
+
+            ?>
+                  <div class="col-md-4">
+                     <a class="btn btn-primary btn-sm btn btn-primary" data-bs-toggle="modal" data-bs-target="#ormConsola" onclick='enviaData(<?= json_encode($v) ?>);'><?= $tmpBoton[1] ?></a>
+                  </div>
+            <?php
+               }
+            }
+            ?>
+
+         </div>
+      </div>
+   </div>
+
+<?php
+}
+?>
+
+
+
+</body>
+
+
+<!-- ORM Consola -->
+<div class="modal fade" id="ormConsola" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="t">Consola</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-6">
+                     <span id="m1"></span>
+                  </div>
+                  <div class="col-md-6">
+                  <button id="guardar" class="btn btn-sm btn-danger">Guardar</button>
+                     <span id="m2"></span>
+                     <form id="form1" method="post">
+                        <div class="col-md-12 mb-3 ">
+                           <label for=""></label>
+                           <div id="classic">
+                              <div class="inline-margin"></div>
+                              <textarea id="editor_classic"></textarea>
+                              <input id="obs"    name="obs"    type="hidden" value="">
+                              <input id="obsAnt" name="obsAnt" type="hidden" value="">
+                              <input id="ids"    name="ids"    type="hidden" value="">
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<link href="<?= RUTAS_APP['ruta_css'] ?>suneditor.css" rel="stylesheet" type="text/css" />
+<link href="<?= RUTAS_APP['ruta_css'] ?>fontawesomeLocal.min.css" rel="stylesheet" type="text/css" />
+<script src="<?= RUTAS_APP['ruta_js'] ?>suneditor.min.js"></script>
+<script src="<?= RUTAS_APP['ruta_js'] ?>katex.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+</html>
+
+<script>
+   $("input").addClass("form-control")
+   $("label").addClass("col-form-label")
+   $("select").addClass("form-control")
+   $("textarea").addClass("form-control")
+   $("table").addClass("table table-sm")
+   $("table th").addClass("text-center aling-middle")
+   $("#variable td:nth-child(odd)").addClass("grey0 text-white pl-1")
+   $("#variable tbody td:nth-child(even)").addClass("text-left")
+</script>
+
+<script>
+   SUNEDITOR.create('editor_classic', {
+      display: 'block',
+      width: '100%',
+      height: 'auto',
+      popupDisplay: 'full',
+      charCounter: true,
+      charCounterLabel: 'Caracteres :',
+      // imageGalleryUrl: 'https://etyswjpn79.execute-api.ap-northeast-1.amazonaws.com/suneditor-demo',
+      buttonList: [
+         // default
+         ['undo', 'redo'],
+         ['font', 'fontSize', 'formatBlock'],
+         ['paragraphStyle', 'blockquote'],
+         ['bold', 'underline', 'italic'],
+         ['fontColor', 'hiliteColor'],
+         ['removeFormat'],
+         ['outdent', 'indent'],
+         ['align', 'horizontalRule', 'list', 'lineHeight'],
+         ['preview'],
+         // (min-width: 1565)
+         ['%1565', [
+            ['undo', 'redo'],
+            ['font', 'fontSize', 'formatBlock'],
+            ['paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic'],
+            ['fontColor', 'hiliteColor'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'print', ]
+         ]],
+         // (min-width: 1455)
+         ['%1455', [
+            ['undo', 'redo'],
+            ['font', 'fontSize', 'formatBlock'],
+            ['paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic'],
+            ['fontColor', 'hiliteColor'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'print']
+         ]],
+         // (min-width: 1326)
+         ['%1326', [
+            ['undo', 'redo'],
+            ['font', 'fontSize', 'formatBlock'],
+            ['paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic'],
+            ['fontColor', 'hiliteColor'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'print'],
+            ['-right', ':r-More Rich-default.more_plus']
+         ]],
+         // (min-width: 1123)
+         ['%1123', [
+            ['undo', 'redo'],
+            [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic'],
+            ['fontColor', 'hiliteColor'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'preview'],
+            ['-right', ':r-More Rich-default.more_plus']
+         ]],
+         // (min-width: 817)
+         ['%817', [
+            ['undo', 'redo'],
+            [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic', 'strike'],
+            [':t-More Text-default.more_text', 'subscript', 'superscript', 'fontColor', 'hiliteColor'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'preview'],
+            ['-right', ':r-More Rich-default.more_plus']
+         ]],
+         // (min-width: 673)
+         ['%673', [
+            ['undo', 'redo'],
+            [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+            [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'preview']
+         ]],
+         // (min-width: 525)
+         ['%525', [
+            ['undo', 'redo'],
+            [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'paragraphStyle', 'blockquote'],
+            [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            [':e-More Line-default.more_horizontal', 'align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'preview']
+         ]],
+         // (min-width: 420)
+         ['%420', [
+            ['undo', 'redo'],
+            [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+            [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'removeFormat'],
+            [':e-More Line-default.more_horizontal', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'preview']
+         ]]
+      ],
+      name: 'obs',
+      placeholder: 'Empieza a escribir...',
+      templates: [{
+            html: '<p>HTML source1</p>'
+         },
+         {
+            html: '<p>HTML source2</p>'
+         }
+      ],
+      katex: katex,
+   });
+
+   SUNEDITOR.create('editor_inline1', {
+      mode: 'inline',
+      display: 'block',
+      width: '100%',
+      height: '162',
+      popupDisplay: 'full',
+      buttonList: [
+         ['bold', 'underline', 'align', 'horizontalRule', 'list', 'table', 'codeView']
+      ],
+      placeholder: 'Empieza a escribir...'
+   });
+   SUNEDITOR.create('editor_inline2', {
+      name: 'obs',
+      mode: 'inline',
+      display: 'block',
+      width: '100%',
+      height: '204',
+      popupDisplay: 'full',
+      buttonList: [
+         ['font', 'fontSize', 'formatBlock'],
+         ['bold', 'underline', 'italic'],
+         ['codeView']
+      ],
+      placeholder: 'Empieza a escribir...'
+   });
+   SUNEDITOR.create('editor_inline3', {
+      mode: 'inline',
+      display: 'block',
+      width: '100%',
+      height: 'auto',
+      popupDisplay: 'full',
+      buttonList: [
+         ['link', 'image', 'video']
+      ],
+      placeholder: 'Empieza a escribir...'
+   });
+
+   SUNEDITOR.create('editor_balloon', {
+      mode: 'balloon',
+      display: 'block',
+      width: '100%',
+      height: 'auto',
+      popupDisplay: 'full',
+      buttonList: [
+         ['fontSize', 'fontColor', 'bold', 'underline', 'align', 'horizontalRule', 'table', 'codeView']
+      ],
+      placeholder: 'Empieza a escribir...'
+   });
+
+   SUNEDITOR.create('editor_balloon_always', {
+      mode: 'balloon-always',
+      display: 'block',
+      width: '100%',
+      height: 'auto',
+      popupDisplay: 'full',
+      buttonList: [
+         ['bold', 'italic', 'link', 'undo', 'redo']
+      ],
+      placeholder: 'Empieza a escribir...'
+   });
+</script>
+
+<script>
+   $(document).ready(function() {
+      $("#guardar").on('click', function() {
+         // Captura el dato lo pasa al hidden y envia el formulario
+         $("#obs").val(($(".se-wrapper-inner").html()));
+         $("#obsAnt").val($('#m1').html())
+         $('#form1').submit();
+      });
+   });
+</script>
+
+
+</body>
+
+</html>
+
+
+</body>

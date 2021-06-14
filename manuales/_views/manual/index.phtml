@@ -1,0 +1,550 @@
+<?php
+
+
+
+function asignaCol($d)
+{
+
+   $c =  count(array_unique($d));
+   switch ($c) {
+      case 3:
+         return 4;
+         break;
+      case 2:
+         return 6;
+         break;
+      case 1:
+         return 12;
+         break;
+      default:
+         # code...
+         break;
+   }
+}
+?>
+
+<script>
+   function enviaData(a) {
+      $('#id_modal').val(a)
+      $('#form5').submit();
+      //for( i = 0 ; i < a.length ; i++ ){
+      //   alert(a[i]);
+      //}
+   }
+
+   function enviaTematica(idItem) {
+      $('#id_modalM').val(idItem)
+   }
+</script>
+
+
+<div class="mx-auto">
+   <a href="https://www.youtube.com/playlist?list=PLZ2ovOgdI-kWWS9aq8mfUDkJRfYib-SvF">Tutoriales</a>
+   <a href="https://laravel.com/docs/8.x">Laravel documentacion oficial</a>
+</div>
+<h3>Quede en el video 13 referente a crud</h3>
+
+
+<style>
+
+
+</style>
+
+<div class="container ">
+   <div class="row mx-auto my-4 col-md-8 bg-white rounded-3 shadow border mt-4 card-body ">
+      <div class="col-md-4  text-center">
+
+         <a type="button" class="btn btn-sm btn-success col-md-10 " data-bs-toggle="modal" data-bs-target="#createManual" class="btn btn-success btn-sm ">Crear Manual</a>
+      </div>
+      <div class="col-md-4 ">
+         <form action="" method="post">
+            <select name="manual" id="" onchange="submit(this)">
+               <option value="">Seleccione</option>
+               <?php
+               foreach ($this->manuales as $i => $d) echo '<option ' . ($i == $_POST['manual']) . ' value="' . $i . '" >' . $d . '</option>';
+               ?>
+            </select>
+         </form>
+      </div>
+      <div class="col-md-4 ">
+         <form action="" method="post" class="col-md-10 mx-auto">
+            <input type="submit" class="btn btn-success btn-sm col-2" value="Crear item">
+            <input type="text" name="nameItem" placeholder="Nombre de item" class="form-control">
+            <input type="hidden" name="a" value="sI">
+            <input type="hidden" name="manual" value="<?= ($_POST['manual'] ?? '') ?>">
+         </form>
+
+      </div>
+   </div>
+</div>
+
+<?php
+
+
+
+if ($this->data['status'] == 'error') {
+?>
+   <div class="container-fluid">
+      <div class="row d-flex justify-content-center">
+         <div class="col-md-10">
+
+            <div class="col-md-11 my-6 mx-auto card card-body">
+
+               <div class="col-md-11 my-6 mx-auto ">
+                  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                     <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                     </div>
+                     <div class="carousel-inner">
+                        <div class="carousel-item active">
+                           <img src="public\layout1\img\dev\php2.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                           <img src="public\layout1\img\dev\laravel01.jpeg" class="d-block w-100" alt="...">
+                        </div>
+                     </div>
+                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">
+                        </span> </button> <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden"></span>
+                     </button>
+                  </div>
+               </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+<?php
+}
+
+
+
+
+
+
+
+if ($this->data['status'] == 'ok') {
+?>
+   <div class="my-4  card-title mx-auto col-md-2 text-center">
+      <span class="text-primary h1 mt-2"><?= $this->manual[1] ?></span><br>
+      <?php
+      if (isset($this->manual[2]) && !empty($this->manual[2])) echo '<b> Requisitos:</b><br><span >' . $this->manual[2] . '</span> <br>';
+      if (isset($this->manual[4]) && !empty($this->manual[4])) echo '<a href="' . $this->manual[4] . '">Documentación</a>';
+      ?>
+
+
+   </div>
+
+   <?php
+   if (isset($this->error)) {
+      echo '   <div class="col-md-4 mx-auto text-center my-2 alert alert-danger alert-dismissible fade show" role="alert">
+   ' . $this->error . '</div>
+</div>';
+   }
+   ?>
+   <?php
+   foreach ($this->data['msg'] as $i => $d) {
+      $item = explode('|', $i);
+   ?>
+      <div class="card bounded-3 shadow-sm my-2 card-body mx-auto col-md-10">
+         <div class="container-fluid text-center col-md-10">
+            <h3 class="text-center mt-2 my-4"><?= $item[1] ?></h3>
+            <div class="row mx-auto">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class="col-md-3 mx-auto text-center">
+                        <?php
+                        foreach ($d as $boton => $b) {
+                           if (is_array($b)) {
+                              foreach (array_unique($b) as $k => $v) $ids = explode('|', $v[1]);
+                           }
+                        }
+                        ?>
+                        <a type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#ormConsola" onclick="
+                  enviaTematica(<?= $ids[1] ?>)">Agregar Tematica<a>
+                     </div>
+                  </div>
+               </div>
+               <?php
+               if (is_array($d)) foreach ($d as $boton => $b) {
+                  $tmpBoton = explode('|', $boton);
+
+                  if (is_array($b)) foreach (array_unique($b) as $k => $v) {
+                     $idModal =  explode('|', $v[1]);
+                     $modal   = (empty($v[3])) ? true : false;
+                     if ($modal) {
+                        // $idModal = $i . $v[3] . $v[5];
+                        $targer  = ' href="javascript:;" onclick="enviaData(' . $idModal[2] . ');" ';
+                     } else {
+                        $targer = ' href="' . $v[3] . '" ';
+                        //  $idModal =  $targer = 'href=" ' . ($v[14] ?? 'javascript:;') . '"';
+                     }
+                     $idModal =  explode('|', $v[1]);
+                     if (isset($tmpBoton[1]) && !empty($tmpBoton[1])) {
+               ?>
+                        <div class="col-md-4">
+                           <a class=" btn-sm btn btn-primary my-2" <?= $targer ?>><?= $tmpBoton[1] ?></a>
+                        </div>
+               <?php
+                     }
+                  }
+               }
+               ?>
+
+            </div>
+         </div>
+      </div>
+
+   <?php
+   }
+   ?>
+
+
+
+
+
+   <form action="<?= $BASE_URL ?>manual/dtItem" id="form5" method="post">
+      <input type="hidden" id="id_modal" name="id_modal">
+   </form>
+
+
+   <!-- ORM Consola -->
+   <div class="modal fade" id="ormConsola" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+         <div class="modal-content">
+            <div class="modal-header">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-md-4">
+                        <input type="text" name="titleModal" placeholder="Titulo Modal" id="titleModal">
+                     </div>
+                     <div class="col-md-4">
+                        <input type="text" name="titleBtn" placeholder="Titulo Btn" id="titleBtn">
+                     </div>
+                     <div class="col-md-4">
+                        <input type="text" name="url" placeholder="Url- opcinal" id="url">
+                     </div>
+                     <div class="col-md-12 text-center mt-2">
+                        <button id="guardar" class="btn btn-sm btn-danger mb-2">Guardar</button>
+                     </div>
+                  </div>
+               </div>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="container">
+                  <div class="row">
+
+                     <div class="col-md-12">
+
+
+
+                        <span id="m2"></span>
+                        <form id="form1" method="post">
+
+                           <div class="col-md-12 mb-3 ">
+                              <label for=""></label>
+                              <div id="classic">
+                                 <div class="inline-margin"></div>
+                                 <textarea id="editor_classic"></textarea>
+                                 <input id="obs" name="obs" type="hidden" value="">
+                                 <input id="id_modalM" name="id_modal" type="hidden" value="">
+                                 <input id="htitleModal" name="titleModal" type="hidden" value="">
+                                 <input id="htitleBtn" name="titleBtn" type="hidden" value="">
+                                 <input id="hurl" name="url" type="hidden" value="">
+                                 <input name="manual" type="hidden" value="<?= $_POST['manual'] ?>">
+                                 <input name="a" type="hidden" value="sT">
+
+                              </div>
+                           </div>
+                        </form>
+
+                     </div>
+                  </div>
+
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+
+<?php
+}
+?>
+
+
+
+<!-- Crear manula -->
+<div class="modal fade" id="createManual" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-md">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Crear manual</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="container-fluid">
+               <form id="form6" method="post">
+                  <div class="row">
+                     <div class="col-md-12">
+
+                        <select class="col-md-8 mt-2 mx-auto" name="lenguaje" id="lenguaje">
+                           <option value="">Seleccione</option>
+                           <?php
+                           foreach ($this->lenguajes  as $i => $d)  echo '<option value="' . $i . '">' . $d . '</option>';
+                           ?>
+                        </select>
+
+                     </div>
+                     <div class="col-md-4">
+                        <label for="nomM">Nombre Manual</label>
+                        <input type="text" name="nomM" id="nomM">
+                     </div>
+                     <div class="col-md-4">
+                        <label for="reqM">Requisitos</label>
+                        <input type="text" name="reqM" id="reqM">
+                     </div>
+                     <div class="col-md-4">
+                        <label for="urlM">Url oficial</label>
+                        <input type="text" name="urlM" id="urlM">
+                     </div>
+                     <div class="col-md-12 text-center">
+                        <label for="descM">Descripción</label>
+                        <textarea name="descM" id="descM" cols="30" rows="3"></textarea>
+                     </div>
+                  </div>
+                  <input type="hidden" name="a" value="sMo">
+               </form>
+               <div class="modal-footer">
+                  <button type="button" id="storeM" class="btn btn-danger">Guardar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   </body>
+
+
+
+   </html>
+
+   <script>
+      $("input").addClass("form-control")
+      $("label").addClass("col-form-label")
+      $("select").addClass("form-control")
+      $("textarea").addClass("form-control")
+      $("table").addClass("table table-sm")
+      $("table th").addClass("text-center aling-middle")
+      $("#variable td:nth-child(odd)").addClass("grey0 text-white pl-1")
+      $("#variable tbody td:nth-child(even)").addClass("text-left")
+   </script>
+
+   <script>
+      SUNEDITOR.create('editor_classic', {
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         charCounter: true,
+         charCounterLabel: 'Caracteres :',
+         // imageGalleryUrl: 'https://etyswjpn79.execute-api.ap-northeast-1.amazonaws.com/suneditor-demo',
+         buttonList: [
+            // default
+            ['undo', 'redo'],
+            ['formatBlock'],
+            ['paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic'],
+            ['removeFormat'],
+            // (min-width: 1565)
+
+            // (min-width: 1455)
+            ['%1455', [
+               ['undo', 'redo'],
+               ['font', 'fontSize', 'formatBlock'],
+               ['paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic'],
+               ['fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'print']
+            ]],
+            // (min-width: 1326)
+            ['%1326', [
+               ['undo', 'redo'],
+               ['font', 'fontSize', 'formatBlock'],
+               ['paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic'],
+               ['fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'print'],
+               ['-right', ':r-More Rich-default.more_plus']
+            ]],
+            // (min-width: 1123)
+            ['%1123', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic'],
+               ['fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'preview'],
+               ['-right', ':r-More Rich-default.more_plus']
+            ]],
+            // (min-width: 817)
+            ['%817', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               ['bold', 'underline', 'italic', 'strike'],
+               [':t-More Text-default.more_text', 'subscript', 'superscript', 'fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'preview'],
+               ['-right', ':r-More Rich-default.more_plus']
+            ]],
+            // (min-width: 673)
+            ['%673', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               ['align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'preview']
+            ]],
+            // (min-width: 525)
+            ['%525', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'paragraphStyle', 'blockquote'],
+               [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+               ['removeFormat'],
+               ['outdent', 'indent'],
+               [':e-More Line-default.more_horizontal', 'align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'preview']
+            ]],
+            // (min-width: 420)
+            ['%420', [
+               ['undo', 'redo'],
+               [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+               [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'removeFormat'],
+               [':e-More Line-default.more_horizontal', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'lineHeight'],
+               ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'preview']
+            ]]
+         ],
+         name: 'obs',
+         placeholder: 'Empieza a escribir...',
+         templates: [{
+               html: '<p>HTML source1</p>'
+            },
+            {
+               html: '<p>HTML source2</p>'
+            }
+         ],
+         katex: katex,
+      });
+
+      SUNEDITOR.create('editor_inline1', {
+         mode: 'inline',
+         display: 'block',
+         width: '100%',
+         height: '162',
+         popupDisplay: 'full',
+         buttonList: [
+            ['bold', 'underline', 'align', 'horizontalRule', 'list', 'table', 'codeView']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+      SUNEDITOR.create('editor_inline2', {
+         name: 'obs',
+         mode: 'inline',
+         display: 'block',
+         width: '100%',
+         height: '204',
+         popupDisplay: 'full',
+         buttonList: [
+            ['font', 'fontSize', 'formatBlock'],
+            ['bold', 'underline', 'italic'],
+            ['codeView']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+      SUNEDITOR.create('editor_inline3', {
+         mode: 'inline',
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         buttonList: [
+            ['link', 'image', 'video']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+
+      SUNEDITOR.create('editor_balloon', {
+         mode: 'balloon',
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         buttonList: [
+            ['fontSize', 'fontColor', 'bold', 'underline', 'align', 'horizontalRule', 'table', 'codeView']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+
+      SUNEDITOR.create('editor_balloon_always', {
+         mode: 'balloon-always',
+         display: 'block',
+         width: '100%',
+         height: 'auto',
+         popupDisplay: 'full',
+         buttonList: [
+            ['bold', 'italic', 'link', 'undo', 'redo']
+         ],
+         placeholder: 'Empieza a escribir...'
+      });
+   </script>
+
+   <script>
+      $(document).ready(function() {
+         $("#guardar").on('click', function() {
+            // Captura el dato lo pasa al hidden y envia el formulario
+            $("#obs").val(($(".se-wrapper-inner").html()));
+            $("#htitleModal").val($("#titleModal").val())
+            $("#htitleBtn").val($("#titleBtn").val())
+            $("#hurl").val($("#url").val())
+            $('#form1').submit();
+         });
+
+
+      });
+
+
+
+
+      $('#storeM').click(function() {
+         $('#form6').submit();
+      })
+   </script>
+
+
+   </body>
+
+   </html>
+
+
+   </body>
