@@ -6,8 +6,8 @@ define("imgUsuario", "UserSinImagen.jpg");
 define("imgProducto", "ProductoSinImagen.png");
 
 //controlador por defecto de nuestra aplicacion
-//define('BASE_URL', 'https://jfa.herokuapp.com/manuales/');  
-define('BASE_URL', 'http://localhost/jfa/manuales/');  
+define('BASE_URL', 'https://http://serverjrn.herokuapp.com/manuales/');  
+//define('BASE_URL', 'http://localhost/jfa/manuales/');  
 define('DEFAULT_CONTROLLER', 'index');
 define('DEFAULT_LAYOUT', 'layout1');
 
